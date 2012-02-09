@@ -1,4 +1,4 @@
-package jagentloader;
+package ajtest;
 
 public class DummyService {
     public void sayHello(){

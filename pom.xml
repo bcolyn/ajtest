@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>jagentloader</groupId>
-    <artifactId>jagentloader</artifactId>
-    <version>1.0</version>
+    <groupId>ajtest</groupId>
+    <artifactId>ajtest</artifactId>
+    <version>1.0-SNAPSHOT</version>
 
 
     <profiles>
@@ -35,12 +35,6 @@
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>6.3.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.byteman</groupId>
-            <artifactId>byteman-bmunit</artifactId>
-            <version>2.0.0</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.aspectj</groupId>
