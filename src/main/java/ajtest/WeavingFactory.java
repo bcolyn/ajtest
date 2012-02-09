@@ -4,7 +4,7 @@ import org.aspectj.weaver.loadtime.WeavingURLClassLoader;
 import org.testng.IObjectFactory2;
 
 public class WeavingFactory implements IObjectFactory2 {
-
+    // http://tutorials.jenkov.com/java-reflection/dynamic-class-loading-reloading.html
     public Object newInstance(Class<?> cls) {
         try {
 
