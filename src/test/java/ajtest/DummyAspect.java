@@ -8,7 +8,7 @@ import org.aspectj.lang.annotation.Aspect;
 public class DummyAspect {
 
     @Around("execution(void DummyService.sayHello())")
-    Object testAround(ProceedingJoinPoint pjp){
-        throw new IllegalArgumentException("Test from aspectJ");
+    public Object testAround(ProceedingJoinPoint pjp){
+        throw new IllegalStateException("Test from aspectJ");
     }
 }
