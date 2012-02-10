@@ -3,6 +3,9 @@ package ajtest;
 import org.testng.annotations.ObjectFactory;
 import org.testng.annotations.Test;
 
+import java.io.File;
+import java.io.FileFilter;
+
 import static org.testng.Assert.assertEquals;
 
 public class DummyServiceTest {
@@ -22,6 +25,10 @@ public class DummyServiceTest {
 
     @ObjectFactory
     public WeavingFactory getFactory(){
-        return new WeavingFactory("target/test-classes");
+        return new WeavingFactory(new FileFilter(){
+            public boolean accept(File pathname) {
+                return pathname.isDirectory() && pathname.getName().endsWith("test-classes");
+            }
+        });
     }
 }

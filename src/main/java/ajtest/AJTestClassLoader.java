@@ -4,19 +4,22 @@ import org.aspectj.weaver.loadtime.WeavingURLClassLoader;
 
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 
 public class AJTestClassLoader extends WeavingURLClassLoader {
     private final HashMap<String, Class> classesLoaded = new HashMap<String, Class>();
 
-    public AJTestClassLoader(URL[] classURLs, URL[] aspectURLs, ClassLoader parent) {
-        super(classURLs, aspectURLs, parent);
+    public AJTestClassLoader(List<URL> classURLs, List<URL> aspectURLs, ClassLoader parent) {
+        super(classURLs.toArray(new URL[classURLs.size()]),
+                aspectURLs.toArray(new URL[aspectURLs.size()]),
+                parent);
     }
 
     /**
      * Override default class loading order. Try to load it ourselves by default,
      * unless shouldWeave indicates we shouldn't.
      *
-     * @param name name of the class to load
+     * @param name    name of the class to load
      * @param resolve
      * @return
      * @throws ClassNotFoundException

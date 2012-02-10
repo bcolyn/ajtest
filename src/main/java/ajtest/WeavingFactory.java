@@ -3,32 +3,29 @@ package ajtest;
 import org.testng.IObjectFactory2;
 
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
+import java.io.FileFilter;
 import java.util.List;
-import java.util.StringTokenizer;
+
+import static ajtest.Util.*;
 
 public class WeavingFactory implements IObjectFactory2 {
 
     private final AJTestClassLoader weaver;
 
     public WeavingFactory() {
-        this(System.getProperty("java.class.path"));
+        this(null);
     }
 
     /**
-     * Limits search path for aspect to aspectPath
-     * @param aspectPath - i.e. "target/test-classes" to only look there for aop.xml and aspects.
+     * Limits search path for aspects for faster startup
+     * @param filter - filters the classpath used to find aspects
      */
-    public WeavingFactory(String aspectPath){
+    public WeavingFactory(FileFilter filter){
         ClassLoader parent = ClassLoader.getSystemClassLoader();
-        String cp = System.getProperty("java.class.path");
+        List<File> classpathFiles = getClasspathFiles();
+        List<File> aspectClassPathElems = filter(classpathFiles, filter);
 
-        final URL[] classPathElems = getURLs(cp);
-        final URL[] aspectClassPathElems = getURLs(aspectPath);
-
-        weaver = new AJTestClassLoader(classPathElems, aspectClassPathElems,parent);
+        weaver = new AJTestClassLoader(filesToURLs(classpathFiles), filesToURLs(aspectClassPathElems),parent);
         Thread.currentThread().setContextClassLoader(weaver);
     }
 
@@ -45,25 +42,4 @@ public class WeavingFactory implements IObjectFactory2 {
             throw new RuntimeException(e);
         }
     }
-
-    private static URL[] getURLs(String path) {
-        List<URL> urlList = new ArrayList<URL>();
-        for (StringTokenizer t = new StringTokenizer(path, File.pathSeparator); t.hasMoreTokens(); ) {
-            File f = new File(t.nextToken().trim());
-            try {
-                if (f.exists()) {
-                    URL url = f.toURI().toURL();
-                    if (url != null)
-                        urlList.add(url);
-                }
-            } catch (MalformedURLException e) {
-                //skip bad parts
-            }
-        }
-
-        URL[] urls = new URL[urlList.size()];
-        urlList.toArray(urls);
-        return urls;
-    }
-
 }
