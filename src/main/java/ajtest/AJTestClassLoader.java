@@ -2,9 +2,7 @@ package ajtest;
 
 import org.aspectj.weaver.loadtime.WeavingURLClassLoader;
 
-import java.io.IOException;
 import java.net.URL;
-import java.security.CodeSource;
 import java.util.HashMap;
 
 public class AJTestClassLoader extends WeavingURLClassLoader {
@@ -38,11 +36,6 @@ public class AJTestClassLoader extends WeavingURLClassLoader {
         } else {
             return super.loadClass(name, resolve);
         }
-    }
-
-    @Override
-    protected Class defineClass(String name, byte[] b, CodeSource cs) throws IOException {
-        return super.defineClass(name, b, cs);
     }
 
     private boolean shouldWeave(String name) {
