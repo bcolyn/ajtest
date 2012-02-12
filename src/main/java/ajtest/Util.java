@@ -1,44 +1,56 @@
 package ajtest;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
 class Util {
+    //private final static org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(Util.class);
+
     private Util() {
     }
 
-    public static List<File> getClasspathFiles() {
+    public static List<URL> getClasspathFiles(ClassLoader parent) {
+        if (true){
+        //if (parent instanceof URLClassLoader){
+            return Arrays.asList(((URLClassLoader) parent).getURLs());
+        }
         String cp = System.getProperty("java.class.path");
-        List<File> result = new ArrayList<File>();
+        List<URL> result = new ArrayList<URL>();
         for (StringTokenizer t = new StringTokenizer(cp, File.pathSeparator); t.hasMoreTokens(); ) {
             File f = new File(t.nextToken().trim());
-            if (f.exists()) result.add(f);
-        }
-        return result;
-    }
-
-    public static List<File> filter(List<File> original, FileFilter filter){
-        ArrayList<File> filtered = new ArrayList<File>();
-        for (File file : original) {
-            if (filter.accept(file)) filtered.add(file);
-        }
-        return filtered;
-    }
-
-    public static List<URL> filesToURLs(List<File> files) {
-        List<URL> result = new ArrayList<URL>(files.size());
-        for (File file : files) {
-            try {
-                result.add(file.toURI().toURL());
-            } catch (MalformedURLException e) {
-                throw new IllegalArgumentException("Bad component in classpath: " + file.toString());
+            try{
+                if (f.exists()) result.add(f.toURI().toURL());
+            } catch (MalformedURLException ex){
+                //LOGGER.error("Error parsing classpath urls");
             }
         }
         return result;
+    }
+
+    public static void dump(List<URL> classURLs){
+        System.out.println("Classpath:");
+        for (URL classURL : classURLs) {
+            System.out.println(classURL);
+        }
+        System.out.println();
+    }
+
+    public static List<URL> filter(List<URL> original, URLFilter filter){
+        ArrayList<URL> filtered = new ArrayList<URL>();
+        for (URL file : original) {
+            try {
+                if (filter.accept(file)) filtered.add(file);
+            } catch (URISyntaxException e) {
+                //LOGGER.error("Error filtering",e);
+            }
+        }
+        return filtered;
     }
 }

@@ -3,16 +3,20 @@ package ajtest;
 import org.aspectj.weaver.loadtime.WeavingURLClassLoader;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 
 public class AJTestClassLoader extends WeavingURLClassLoader {
     private final HashMap<String, Class> classesLoaded = new HashMap<String, Class>();
+    private final Collection<String> excludes = new ArrayList<String>();
 
-    public AJTestClassLoader(List<URL> classURLs, List<URL> aspectURLs, ClassLoader parent) {
-        super(classURLs.toArray(new URL[classURLs.size()]),
-                aspectURLs.toArray(new URL[aspectURLs.size()]),
-                parent);
+
+    public AJTestClassLoader(URL[] classURLs, URL[] aspectURLs, ClassLoader parent) {
+        super(classURLs, aspectURLs, parent);
+        excludes.add("java.");
+        excludes.add("sun.");
+        excludes.add("org.slf4j.");
     }
 
     /**
@@ -42,6 +46,9 @@ public class AJTestClassLoader extends WeavingURLClassLoader {
     }
 
     private boolean shouldWeave(String name) {
-        return !name.startsWith("java.");
+        for (String exclude : excludes) {
+            if (name.startsWith(exclude)) return false;
+        }
+        return true;
     }
 }

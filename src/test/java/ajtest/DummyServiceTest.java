@@ -4,7 +4,8 @@ import org.testng.annotations.ObjectFactory;
 import org.testng.annotations.Test;
 
 import java.io.File;
-import java.io.FileFilter;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 import static org.testng.Assert.assertEquals;
 
@@ -25,9 +26,10 @@ public class DummyServiceTest {
 
     @ObjectFactory
     public WeavingFactory getFactory(){
-        return new WeavingFactory(new FileFilter(){
-            public boolean accept(File pathname) {
-                return pathname.isDirectory() && pathname.getName().endsWith("test-classes");
+        return new WeavingFactory(new URLFilter(){
+            public boolean accept(URL pathname) throws URISyntaxException {
+                File f = new File(pathname.toURI());
+                return f.isDirectory() && f.getName().endsWith("test-classes");
             }
         });
     }

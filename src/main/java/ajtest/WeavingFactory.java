@@ -2,13 +2,14 @@ package ajtest;
 
 import org.testng.IObjectFactory2;
 
-import java.io.File;
-import java.io.FileFilter;
+import java.net.URL;
 import java.util.List;
 
-import static ajtest.Util.*;
+import static ajtest.Util.dump;
+import static ajtest.Util.filter;
+import static ajtest.Util.getClasspathFiles;
 
-public class WeavingFactory implements IObjectFactory2 {
+public final class WeavingFactory implements IObjectFactory2 {
 
     private final AJTestClassLoader weaver;
 
@@ -20,12 +21,16 @@ public class WeavingFactory implements IObjectFactory2 {
      * Limits search path for aspects for faster startup
      * @param filter - filters the classpath used to find aspects
      */
-    public WeavingFactory(FileFilter filter){
-        ClassLoader parent = ClassLoader.getSystemClassLoader();
-        List<File> classpathFiles = getClasspathFiles();
-        List<File> aspectClassPathElems = filter(classpathFiles, filter);
+    public WeavingFactory(URLFilter filter){
+        ClassLoader parent = Thread.currentThread().getContextClassLoader();
+        List<URL> classpathFiles = getClasspathFiles(parent);
+        dump(classpathFiles);
+        List<URL> aspectClassPathElems = filter(classpathFiles, filter);
 
-        weaver = new AJTestClassLoader(filesToURLs(classpathFiles), filesToURLs(aspectClassPathElems),parent);
+        weaver = new AJTestClassLoader(
+                classpathFiles.toArray(new URL[classpathFiles.size()]),
+                aspectClassPathElems.toArray(new URL[aspectClassPathElems.size()]),
+                parent);
         Thread.currentThread().setContextClassLoader(weaver);
     }
 
