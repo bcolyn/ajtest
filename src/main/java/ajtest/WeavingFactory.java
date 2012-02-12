@@ -23,7 +23,7 @@ public final class WeavingFactory implements IObjectFactory2 {
      */
     public WeavingFactory(URLFilter filter){
         ClassLoader parent = Thread.currentThread().getContextClassLoader();
-        List<URL> classpathFiles = getClasspathFiles(parent);
+        List<URL> classpathFiles = getClasspathFiles();
         dump(classpathFiles);
         List<URL> aspectClassPathElems = filter(classpathFiles, filter);
 
