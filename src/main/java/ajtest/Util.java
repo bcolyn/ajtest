@@ -4,10 +4,9 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 class Util {
@@ -17,16 +16,24 @@ class Util {
     }
 
     public static List<URL> getClasspathFiles(ClassLoader parent) {
-        if (true){
-        //if (parent instanceof URLClassLoader){
-            return Arrays.asList(((URLClassLoader) parent).getURLs());
-        }
+//        if (true){
+//        //if (parent instanceof URLClassLoader){
+//            return Arrays.asList(((URLClassLoader) parent).getURLs());
+//        }
         String cp = System.getProperty("java.class.path");
+        String bcp = System.getProperty("sun.boot.class.path");
+        cp = bcp + File.pathSeparatorChar + cp;
+        for (Map.Entry<Object, Object> entry  : System.getProperties().entrySet()) {
+            System.out.println(String.format("%s\t:\t%s", entry.getKey(), entry.getValue()));
+        }
         List<URL> result = new ArrayList<URL>();
         for (StringTokenizer t = new StringTokenizer(cp, File.pathSeparator); t.hasMoreTokens(); ) {
             File f = new File(t.nextToken().trim());
             try{
-                if (f.exists()) result.add(f.toURI().toURL());
+                URL url = f.toURI().toURL();
+                if (f.exists() && !result.contains(url)) {
+                    result.add(url);
+                }
             } catch (MalformedURLException ex){
                 //LOGGER.error("Error parsing classpath urls");
             }
