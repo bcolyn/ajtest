@@ -9,7 +9,9 @@ AJTest is a library for running functional tests with AspectJ Load-Time Weaving 
 Usage
 --------------------
 
-Just *extend from AspectJWeavingTest*, or do the setup manually:
+Just __extend from AspectJWeavingTest__
+
+Alternatively, do the setup manually if you already have a base class:
 
 * add `@AspectJTest` annotation to the class
 
