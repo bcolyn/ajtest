@@ -42,6 +42,7 @@ class Util {
     }
 
     public static List<URL> filter(List<URL> original, URLFilter filter){
+        if (filter == null) return original;
         ArrayList<URL> filtered = new ArrayList<URL>();
         for (URL file : original) {
             try {
