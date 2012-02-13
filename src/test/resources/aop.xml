@@ -1,6 +1,9 @@
 <aspectj>
     <aspects>
-        <aspect name="ajtest.DummyAspect"/>
+        <aspect name="com.github.bcolyn.ajtest.DummyAspect"/>
+    </aspects>
+    <aspects>
+        <aspect name="com.github.bcolyn.ajtest.mule.MuleAspect" />
     </aspects>
     <weaver options="-verbose -showWeaveInfo">
     </weaver>

@@ -1,4 +1,4 @@
-package ajtest;
+package com.github.bcolyn.ajtest;
 
 import org.aspectj.weaver.loadtime.WeavingURLClassLoader;
 import org.slf4j.Logger;

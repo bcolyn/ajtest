@@ -13,7 +13,7 @@
         <level value="WARN"/>
     </logger>
 
-    <logger name="ajtest">
+    <logger name="com.github.bcolyn.ajtest">
         <level value="DEBUG" />
     </logger>
 

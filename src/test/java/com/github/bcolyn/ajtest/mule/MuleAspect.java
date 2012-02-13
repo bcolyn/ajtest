@@ -1,4 +1,4 @@
-package ajtest.mule;
+package com.github.bcolyn.ajtest.mule;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

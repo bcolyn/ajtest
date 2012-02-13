@@ -1,4 +1,4 @@
-package ajtest;
+package com.github.bcolyn.ajtest;
 
 import org.testng.annotations.Test;
 

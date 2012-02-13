@@ -1,4 +1,4 @@
-package ajtest;
+package com.github.bcolyn.ajtest;
 
 public class DummyService {
     public void sayHello(){

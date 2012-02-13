@@ -1,4 +1,4 @@
-package ajtest.mule;
+package com.github.bcolyn.ajtest.mule;
 
 import org.mule.api.MuleEventContext;
 import org.mule.api.lifecycle.Callable;

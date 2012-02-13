@@ -1,4 +1,4 @@
-package ajtest;
+package com.github.bcolyn.ajtest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,8 +7,8 @@ import org.testng.IObjectFactory2;
 import java.net.URL;
 import java.util.List;
 
-import static ajtest.Util.dump;
-import static ajtest.Util.getClasspathFiles;
+import static com.github.bcolyn.ajtest.Util.dump;
+import static com.github.bcolyn.ajtest.Util.getClasspathFiles;
 
 public final class AspectJWeavingObjectFactory implements IObjectFactory2 {
     private final static Logger LOGGER = LoggerFactory.getLogger(AspectJWeavingObjectFactory.class);

@@ -1,8 +1,8 @@
-package ajtest.mule;
+package com.github.bcolyn.ajtest.mule;
 
-import ajtest.AspectJTest;
-import ajtest.ThreadContextClassloaderListener;
-import ajtest.AspectJWeavingObjectFactory;
+import com.github.bcolyn.ajtest.AspectJTest;
+import com.github.bcolyn.ajtest.AspectJWeavingObjectFactory;
+import com.github.bcolyn.ajtest.ThreadContextClassloaderListener;
 import org.aspectj.lang.Aspects;
 import org.mule.DefaultMuleMessage;
 import org.mule.MuleServer;

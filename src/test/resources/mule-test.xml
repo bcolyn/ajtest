@@ -9,7 +9,7 @@
 
     <flow name="test">
         <vm:inbound-endpoint path="q.in" exchange-pattern="request-response"/>
-        <component class="ajtest.mule.MuleService" />
+        <component class="com.github.bcolyn.ajtest.mule.MuleService" />
     </flow>
 
 </mule>
