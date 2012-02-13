@@ -23,6 +23,6 @@ public class DummyServiceTest {
 
     @ObjectFactory
     public WeavingFactory getFactory(){
-        return new WeavingFactory();
+        return WeavingFactory.getInstance();
     }
 }

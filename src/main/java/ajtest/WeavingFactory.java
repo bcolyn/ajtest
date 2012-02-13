@@ -7,41 +7,34 @@ import org.testng.IObjectFactory2;
 import java.net.URL;
 import java.util.List;
 
-import static ajtest.Util.*;
+import static ajtest.Util.dump;
+import static ajtest.Util.getClasspathFiles;
 
 public final class WeavingFactory implements IObjectFactory2 {
     private final static Logger LOGGER = LoggerFactory.getLogger(WeavingFactory.class);
-
+    private final static WeavingFactory INSTANCE = new WeavingFactory();
     private final AJTestClassLoader weaver;
     private ClassLoader original;
 
-    public WeavingFactory() {
-        this(null);
-    }
-
-    /**
-     * Limits search path for aspects for faster startup
-     *
-     * @param filter - filters the classpath used to find aspects
-     */
-    public WeavingFactory(URLFilter filter) {
+    private WeavingFactory() {
         original = Thread.currentThread().getContextClassLoader();
         List<URL> classpathFiles = getClasspathFiles();
         dump(classpathFiles);
-        List<URL> aspectClassPathElems = filter(classpathFiles, filter);
         weaver = new AJTestClassLoader(
                 classpathFiles.toArray(new URL[classpathFiles.size()]),
-                aspectClassPathElems.toArray(new URL[aspectClassPathElems.size()]),
+                classpathFiles.toArray(new URL[classpathFiles.size()]),
                 original);
 
     }
 
+    public static WeavingFactory getInstance() {
+        return INSTANCE;
+    }
+
     public synchronized Object newInstance(Class<?> cls) {
         try {
-            LOGGER.trace("Instantiating class: {}", cls);
-            ClassLoader loader = getClassLoader(cls);
-            Thread.currentThread().setContextClassLoader(loader);
-            LOGGER.trace("Set context classloader: {}", Thread.currentThread().getContextClassLoader());
+            LOGGER.debug("Instantiating class: {}", cls);
+            ClassLoader loader = setupThreadContextClassloader(cls);
             String name = cls.getCanonicalName();
             Class woven = Class.forName(name, false, loader);
             return woven.newInstance();
@@ -73,5 +66,17 @@ public final class WeavingFactory implements IObjectFactory2 {
             }
         }
         return found;
+    }
+
+    public ClassLoader setupThreadContextClassloader(Class realClass) {
+        ClassLoader loader = getClassLoader(realClass);
+        Thread.currentThread().setContextClassLoader(loader);
+        LOGGER.debug("Set context classloader: {}", Thread.currentThread().getContextClassLoader());
+        return loader;
+    }
+
+    public void restoreThreadContextClassloader() {
+        Thread.currentThread().setContextClassLoader(original);
+        LOGGER.debug("Restored context classloader: {}", Thread.currentThread().getContextClassLoader());
     }
 }

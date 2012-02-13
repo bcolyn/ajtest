@@ -13,6 +13,10 @@
         <level value="WARN"/>
     </logger>
 
+    <logger name="ajtest">
+        <level value="DEBUG" />
+    </logger>
+
     <root>
         <priority value="INFO"/>
         <appender-ref ref="Console"/>

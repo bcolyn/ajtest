@@ -1,6 +1,7 @@
 package ajtest.mule;
 
 import ajtest.AspectJTest;
+import ajtest.ThreadContextClassloaderListener;
 import ajtest.WeavingFactory;
 import org.aspectj.lang.Aspects;
 import org.mule.DefaultMuleMessage;
@@ -10,15 +11,13 @@ import org.mule.api.MuleMessage;
 import org.mule.module.client.MuleClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.ObjectFactory;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static org.testng.Assert.assertEquals;
 
 @AspectJTest
+@Listeners(ThreadContextClassloaderListener.class)
 public class MuleTest {
     private final static Logger LOGGER = LoggerFactory.getLogger(MuleTest.class);
 
@@ -27,7 +26,7 @@ public class MuleTest {
 
     @BeforeClass
     public void startMule() throws MuleException {
-        LOGGER.trace("Thread context classloader: {}", Thread.currentThread().getContextClassLoader());
+        LOGGER.debug("Thread context classloader: {}", Thread.currentThread().getContextClassLoader());
         server = new MuleServer("mule-test.xml");
         server.start(false, false);
         client = new MuleClient(server.getMuleContext());
@@ -50,6 +49,6 @@ public class MuleTest {
 
     @ObjectFactory
     public WeavingFactory getFactory() {
-        return new WeavingFactory();
+        return WeavingFactory.getInstance();
     }
 }
