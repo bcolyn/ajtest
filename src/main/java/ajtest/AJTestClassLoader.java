@@ -1,6 +1,8 @@
 package ajtest;
 
 import org.aspectj.weaver.loadtime.WeavingURLClassLoader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -8,6 +10,8 @@ import java.util.Collection;
 import java.util.HashMap;
 
 public class AJTestClassLoader extends WeavingURLClassLoader {
+    private final static Logger LOGGER = LoggerFactory.getLogger(AJTestClassLoader.class);
+
     private final HashMap<String, Class> classesLoaded = new HashMap<String, Class>();
     private final Collection<String> excludes = new ArrayList<String>();
 
@@ -29,16 +33,15 @@ public class AJTestClassLoader extends WeavingURLClassLoader {
      * @throws ClassNotFoundException
      */
     @Override
-    protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
+    protected synchronized Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
         if (shouldWeave(name)) {
-            synchronized (classesLoaded) {
-                if (classesLoaded.containsKey(name)) {
-                    return classesLoaded.get(name);
-                } else {
-                    final Class wovenClass = findClass(name);
-                    classesLoaded.put(name, wovenClass);
-                    return wovenClass;
-                }
+            if (classesLoaded.containsKey(name)) {
+                return classesLoaded.get(name);
+            } else {
+                final Class wovenClass = findClass(name);
+                classesLoaded.put(name, wovenClass);
+                LOGGER.trace("loaded {}", name);
+                return wovenClass;
             }
         } else {
             return super.loadClass(name, resolve);

@@ -33,7 +33,7 @@ public final class WeavingFactory implements IObjectFactory2 {
 
     }
 
-    public Object newInstance(Class<?> cls) {
+    public synchronized Object newInstance(Class<?> cls) {
         try {
             ClassLoader loader = getClassLoader(cls);
             Thread.currentThread().setContextClassLoader(loader);
