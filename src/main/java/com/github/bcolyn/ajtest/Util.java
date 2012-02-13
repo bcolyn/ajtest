@@ -15,8 +15,10 @@ class Util {
 
     public static List<URL> getClasspathFiles() {
         String cp = System.getProperty("java.class.path");
-        String bcp = System.getProperty("sun.boot.class.path");
-        cp = bcp + File.pathSeparatorChar + cp;
+        String bcp = System.getProperty("sun.boot.class.path"); //yep, this is dangerous.
+        if (bcp != null){
+            cp = bcp + File.pathSeparatorChar + cp;
+        }
         List<URL> result = new ArrayList<URL>();
         for (StringTokenizer t = new StringTokenizer(cp, File.pathSeparator); t.hasMoreTokens(); ) {
             File f = new File(t.nextToken().trim());

@@ -5,6 +5,10 @@ import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
+/**
+ * TestNG ITestNGListener implementation that switches ThreadContextClassloaders around
+ * before and after test methods or configuration methods (BeforeClass, ...)
+ */
 public class ThreadContextClassloaderListener implements IConfigurationListener2, ITestListener{
 
     public void beforeConfiguration(ITestResult tr) {

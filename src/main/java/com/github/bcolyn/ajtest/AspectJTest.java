@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- *
+ * Marker annotation for test classes that should be woven.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

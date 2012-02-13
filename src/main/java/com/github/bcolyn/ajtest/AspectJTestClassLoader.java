@@ -9,18 +9,22 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
+/**
+ * Classloader extending the AspectJ-standard WeavingURLClassLoader.
+ * Mainly changes loading order to prefer loading it with AspectJ over deferring to parent first.
+ */
 public class AspectJTestClassLoader extends WeavingURLClassLoader {
     private final static Logger LOGGER = LoggerFactory.getLogger(AspectJTestClassLoader.class);
 
     private final HashMap<String, Class> classesLoaded = new HashMap<String, Class>();
     private final Collection<String> excludes = new ArrayList<String>();
 
-
     public AspectJTestClassLoader(URL[] classURLs, URL[] aspectURLs, ClassLoader parent) {
         super(classURLs, aspectURLs, parent);
         excludes.add("java.");
         excludes.add("sun.");
         excludes.add("org.slf4j.");
+        //TODO: we need to make this configurable somehow.
     }
 
     /**
