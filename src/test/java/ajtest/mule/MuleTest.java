@@ -1,6 +1,6 @@
 package ajtest.mule;
 
-import ajtest.URLFilter;
+import ajtest.AspectJTest;
 import ajtest.WeavingFactory;
 import org.aspectj.lang.Aspects;
 import org.mule.DefaultMuleMessage;
@@ -13,11 +13,10 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.ObjectFactory;
 import org.testng.annotations.Test;
 
-import java.net.URL;
-
 import static org.fest.assertions.Assertions.assertThat;
 import static org.testng.Assert.assertEquals;
 
+@AspectJTest
 public class MuleTest {
     private MuleClient client;
     private MuleServer server;
@@ -46,10 +45,6 @@ public class MuleTest {
 
     @ObjectFactory
     public WeavingFactory getFactory() {
-        return new WeavingFactory(new URLFilter() {
-            public boolean accept(URL pathname) {
-                return true;
-            }
-        });
+        return new WeavingFactory();
     }
 }

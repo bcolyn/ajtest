@@ -1,9 +1,11 @@
 package ajtest;
 
+import org.testng.annotations.Test;
+
 public class NoAOPTest {
     private DummyService dummyService = new DummyService();
 
-    //@Test
+    @Test
     public void shouldBeCalledWithoutAdvice() {
         dummyService.sayHello();
     }

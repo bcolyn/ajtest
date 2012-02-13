@@ -5,13 +5,12 @@ import org.testng.IObjectFactory2;
 import java.net.URL;
 import java.util.List;
 
-import static ajtest.Util.dump;
-import static ajtest.Util.filter;
-import static ajtest.Util.getClasspathFiles;
+import static ajtest.Util.*;
 
 public final class WeavingFactory implements IObjectFactory2 {
 
     private final AJTestClassLoader weaver;
+    private ClassLoader original;
 
     public WeavingFactory() {
         this(null);
@@ -19,25 +18,27 @@ public final class WeavingFactory implements IObjectFactory2 {
 
     /**
      * Limits search path for aspects for faster startup
+     *
      * @param filter - filters the classpath used to find aspects
      */
-    public WeavingFactory(URLFilter filter){
-        ClassLoader parent = Thread.currentThread().getContextClassLoader();
+    public WeavingFactory(URLFilter filter) {
+        original = Thread.currentThread().getContextClassLoader();
         List<URL> classpathFiles = getClasspathFiles();
         dump(classpathFiles);
         List<URL> aspectClassPathElems = filter(classpathFiles, filter);
-
         weaver = new AJTestClassLoader(
                 classpathFiles.toArray(new URL[classpathFiles.size()]),
                 aspectClassPathElems.toArray(new URL[aspectClassPathElems.size()]),
-                parent);
-        Thread.currentThread().setContextClassLoader(weaver);
+                original);
+
     }
 
     public Object newInstance(Class<?> cls) {
         try {
+            ClassLoader loader = getClassLoader(cls);
+            Thread.currentThread().setContextClassLoader(loader);
             String name = cls.getCanonicalName();
-            Class woven = Class.forName(name, false, weaver);
+            Class woven = Class.forName(name, false, loader);
             return woven.newInstance();
         } catch (InstantiationException e) {
             throw new RuntimeException(e);
@@ -45,6 +46,14 @@ public final class WeavingFactory implements IObjectFactory2 {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private ClassLoader getClassLoader(Class<?> cls) {
+        if (cls.isAnnotationPresent(AspectJTest.class)) {
+            return weaver;
+        } else {
+            return original;
         }
     }
 }

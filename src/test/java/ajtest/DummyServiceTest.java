@@ -3,12 +3,9 @@ package ajtest;
 import org.testng.annotations.ObjectFactory;
 import org.testng.annotations.Test;
 
-import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
-
 import static org.testng.Assert.assertEquals;
 
+@AspectJTest
 public class DummyServiceTest {
 
     private DummyService dummyService = new DummyService();
@@ -26,11 +23,6 @@ public class DummyServiceTest {
 
     @ObjectFactory
     public WeavingFactory getFactory(){
-        return new WeavingFactory(new URLFilter(){
-            public boolean accept(URL pathname) throws URISyntaxException {
-                File f = new File(pathname.toURI());
-                return f.isDirectory() && f.getName().endsWith("test-classes");
-            }
-        });
+        return new WeavingFactory();
     }
 }
