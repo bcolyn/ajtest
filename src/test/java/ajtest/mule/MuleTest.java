@@ -2,7 +2,7 @@ package ajtest.mule;
 
 import ajtest.AspectJTest;
 import ajtest.ThreadContextClassloaderListener;
-import ajtest.WeavingFactory;
+import ajtest.AspectJWeavingObjectFactory;
 import org.aspectj.lang.Aspects;
 import org.mule.DefaultMuleMessage;
 import org.mule.MuleServer;
@@ -48,7 +48,7 @@ public class MuleTest {
     }
 
     @ObjectFactory
-    public WeavingFactory getFactory() {
-        return WeavingFactory.getInstance();
+    public AspectJWeavingObjectFactory getFactory() {
+        return AspectJWeavingObjectFactory.getInstance();
     }
 }

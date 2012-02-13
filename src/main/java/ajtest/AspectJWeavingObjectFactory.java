@@ -10,24 +10,24 @@ import java.util.List;
 import static ajtest.Util.dump;
 import static ajtest.Util.getClasspathFiles;
 
-public final class WeavingFactory implements IObjectFactory2 {
-    private final static Logger LOGGER = LoggerFactory.getLogger(WeavingFactory.class);
-    private final static WeavingFactory INSTANCE = new WeavingFactory();
-    private final AJTestClassLoader weaver;
+public final class AspectJWeavingObjectFactory implements IObjectFactory2 {
+    private final static Logger LOGGER = LoggerFactory.getLogger(AspectJWeavingObjectFactory.class);
+    private final static AspectJWeavingObjectFactory INSTANCE = new AspectJWeavingObjectFactory();
+    private final AspectJTestClassLoader weaver;
     private ClassLoader original;
 
-    private WeavingFactory() {
+    private AspectJWeavingObjectFactory() {
         original = Thread.currentThread().getContextClassLoader();
         List<URL> classpathFiles = getClasspathFiles();
         dump(classpathFiles);
-        weaver = new AJTestClassLoader(
+        weaver = new AspectJTestClassLoader(
                 classpathFiles.toArray(new URL[classpathFiles.size()]),
                 classpathFiles.toArray(new URL[classpathFiles.size()]),
                 original);
 
     }
 
-    public static WeavingFactory getInstance() {
+    public static AspectJWeavingObjectFactory getInstance() {
         return INSTANCE;
     }
 

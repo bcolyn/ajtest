@@ -8,7 +8,7 @@ import org.testng.annotations.ObjectFactory;
 public class AspectJWeavingTest {
 
     @ObjectFactory
-    public WeavingFactory getFactory(){
-        return WeavingFactory.getInstance();
+    public AspectJWeavingObjectFactory getFactory(){
+        return AspectJWeavingObjectFactory.getInstance();
     }
 }

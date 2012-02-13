@@ -2,7 +2,6 @@ package ajtest;
 
 import java.io.File;
 import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,16 +40,4 @@ class Util {
         LOGGER.debug("---");
     }
 
-    public static List<URL> filter(List<URL> original, URLFilter filter){
-        if (filter == null) return original;
-        ArrayList<URL> filtered = new ArrayList<URL>();
-        for (URL file : original) {
-            try {
-                if (filter.accept(file)) filtered.add(file);
-            } catch (URISyntaxException e) {
-                LOGGER.error("Error filtering",e);
-            }
-        }
-        return filtered;
-    }
 }

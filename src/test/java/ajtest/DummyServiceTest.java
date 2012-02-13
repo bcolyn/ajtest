@@ -22,7 +22,7 @@ public class DummyServiceTest {
     }
 
     @ObjectFactory
-    public WeavingFactory getFactory(){
-        return WeavingFactory.getInstance();
+    public AspectJWeavingObjectFactory getFactory(){
+        return AspectJWeavingObjectFactory.getInstance();
     }
 }

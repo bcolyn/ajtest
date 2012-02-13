@@ -9,14 +9,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
-public class AJTestClassLoader extends WeavingURLClassLoader {
-    private final static Logger LOGGER = LoggerFactory.getLogger(AJTestClassLoader.class);
+public class AspectJTestClassLoader extends WeavingURLClassLoader {
+    private final static Logger LOGGER = LoggerFactory.getLogger(AspectJTestClassLoader.class);
 
     private final HashMap<String, Class> classesLoaded = new HashMap<String, Class>();
     private final Collection<String> excludes = new ArrayList<String>();
 
 
-    public AJTestClassLoader(URL[] classURLs, URL[] aspectURLs, ClassLoader parent) {
+    public AspectJTestClassLoader(URL[] classURLs, URL[] aspectURLs, ClassLoader parent) {
         super(classURLs, aspectURLs, parent);
         excludes.add("java.");
         excludes.add("sun.");
