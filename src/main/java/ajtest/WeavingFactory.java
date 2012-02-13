@@ -50,10 +50,23 @@ public final class WeavingFactory implements IObjectFactory2 {
     }
 
     private ClassLoader getClassLoader(Class<?> cls) {
-        if (cls.isAnnotationPresent(AspectJTest.class)) {
+        if (shouldWeave(cls)) {
             return weaver;
         } else {
             return original;
         }
+    }
+
+    private boolean shouldWeave(Class<?> cls) {
+        boolean found = false;
+        while (cls != null) {
+            if (cls.isAnnotationPresent(AspectJTest.class)) {
+                found = true;
+                break;
+            } else {
+                cls = cls.getSuperclass();
+            }
+        }
+        return found;
     }
 }
