@@ -1,5 +1,7 @@
 package ajtest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.IObjectFactory2;
 
 import java.net.URL;
@@ -8,6 +10,7 @@ import java.util.List;
 import static ajtest.Util.*;
 
 public final class WeavingFactory implements IObjectFactory2 {
+    private final static Logger LOGGER = LoggerFactory.getLogger(WeavingFactory.class);
 
     private final AJTestClassLoader weaver;
     private ClassLoader original;
@@ -35,8 +38,10 @@ public final class WeavingFactory implements IObjectFactory2 {
 
     public synchronized Object newInstance(Class<?> cls) {
         try {
+            LOGGER.trace("Instantiating class: {}", cls);
             ClassLoader loader = getClassLoader(cls);
             Thread.currentThread().setContextClassLoader(loader);
+            LOGGER.trace("Set context classloader: {}", Thread.currentThread().getContextClassLoader());
             String name = cls.getCanonicalName();
             Class woven = Class.forName(name, false, loader);
             return woven.newInstance();

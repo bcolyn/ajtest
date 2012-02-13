@@ -8,6 +8,8 @@ import org.mule.MuleServer;
 import org.mule.api.MuleException;
 import org.mule.api.MuleMessage;
 import org.mule.module.client.MuleClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.ObjectFactory;
@@ -18,11 +20,14 @@ import static org.testng.Assert.assertEquals;
 
 @AspectJTest
 public class MuleTest {
+    private final static Logger LOGGER = LoggerFactory.getLogger(MuleTest.class);
+
     private MuleClient client;
     private MuleServer server;
 
     @BeforeClass
     public void startMule() throws MuleException {
+        LOGGER.trace("Thread context classloader: {}", Thread.currentThread().getContextClassLoader());
         server = new MuleServer("mule-test.xml");
         server.start(false, false);
         client = new MuleClient(server.getMuleContext());
