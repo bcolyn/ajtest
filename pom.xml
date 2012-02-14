@@ -4,7 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.bcolyn</groupId>
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
+
+    <groupId>com.github.bcolyn.ajtest</groupId>
     <artifactId>ajtest</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
@@ -24,8 +30,8 @@
 
     <scm>
         <url>https://github.com/bcolyn/ajtest</url>
-        <connection>git://github.com/bcolyn/ajtest.git</connection>
-        <developerConnection>git@github.com:bcolyn/ajtest.git</developerConnection>
+        <connection>scm:git://github.com/bcolyn/ajtest.git</connection>
+        <developerConnection>scm:git@github.com:bcolyn/ajtest.git</developerConnection>
     </scm>
 
     <developers>
@@ -34,6 +40,10 @@
             <name>Benny Colyn</name>
         </developer>
     </developers>
+
+    <ciManagement>
+        <url>https://bcolyn.ci.cloudbees.com/job/AJTest/</url>
+    </ciManagement>
 
     <prerequisites>
         <maven>2.2.0</maven>
