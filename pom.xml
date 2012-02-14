@@ -53,6 +53,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <aspectj.version>1.6.12</aspectj.version>
         <testng.version>6.3.1</testng.version>
+        <slf4ji.version>1.6.1</slf4ji.version>
     </properties>
 
     <dependencies>
@@ -69,7 +70,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.6.1</version>
+            <version>${slf4ji.version}</version>
         </dependency>
 
         <!-- testing -->
