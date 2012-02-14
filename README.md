@@ -20,10 +20,12 @@ Alternatively, do the setup manually if you already have a base class:
 
 * configure an ObjectFactory:
 
+    `
     @ObjectFactory
     public AspectJWeavingObjectFactory getFactory(){
         return AspectJWeavingObjectFactory.getInstance();
     }
+    `
 
 Maven
 --------------------
