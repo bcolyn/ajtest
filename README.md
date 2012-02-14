@@ -32,7 +32,7 @@ Maven
 
 Snapshot binaries are available from Sonatype OSS Snapshot repository
 
- -------------------
+--------------------
 <dependency>
     <groupId>com.github.bcolyn.ajtest</groupId>
     <artifactId>ajtest</artifactId>
@@ -45,7 +45,7 @@ Snapshot binaries are available from Sonatype OSS Snapshot repository
         <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </repository>
 </repositories>
- -------------------
+--------------------
 
 Releases will be made available from Central when they are ready.
 
