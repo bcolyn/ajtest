@@ -31,7 +31,7 @@
     <scm>
         <url>https://github.com/bcolyn/ajtest</url>
         <connection>scm:git://github.com/bcolyn/ajtest.git</connection>
-        <developerConnection>scm:git@github.com:bcolyn/ajtest.git</developerConnection>
+        <developerConnection>scm:git:git@github.com:bcolyn/ajtest.git</developerConnection>
     </scm>
 
     <developers>
